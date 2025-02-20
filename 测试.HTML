@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语水平问卷调查</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            animation: fadeIn 1s ease-in-out;
+            display: none; /* 初始隐藏 */
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            display: none; /* 初始隐藏 */
+        }
+
+        .question.active {
+            display: block; /* 当前题目显示 */
+        }
+
+        .question label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .question .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .question .options label {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .question .options label:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .question .options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #4caf50;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        /* 欢迎弹窗样式 */
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .welcome-modal-content {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.3s ease-in-out;
+            text-align: center;
+        }
+
+        .welcome-modal-content h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .welcome-modal-content p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .welcome-modal-content button {
+            background: #4caf50;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .welcome-modal-content button:hover {
+            background: #388e3c;
+        }
+
+        /* 弹窗样式 */
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .result-modal-content {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.3s ease-in-out;
+        }
+
+        .result-modal-content h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .result-modal-content p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .result-modal-content button {
+            margin-top: 20px;
+            background: #4caf50;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .result-modal-content button:hover {
+            background: #388e3c;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 欢迎弹窗 -->
+<div id="welcomeModal" class="welcome-modal">
+    <div class="welcome-modal-content">
+        <h2>欢迎来到2026年医学考博英语全程班！</h2>
+        <p>我是小白老师，在开始学习之前，先测试一下英语水平，获取属于你的专属定制学习方案吧！</p>
+        <button onclick="startSurvey()">开始测试</button>
+    </div>
+</div>
+
+<!-- 问卷容器 -->
+<div class="container">
+    <h1>英语水平问卷调查</h1>
+    <form id="surveyForm">
+        <div class="question active" id="q1">
+            <label>1. 你学习英语多久了？</label>
+            <div class="options">
+                <label><input type="radio" name="q1" value="1"> 少于6个月</label>
+                <label><input type="radio" name="q1" value="2"> 6个月到1年</label>
+                <label><input type="radio" name="q1" value="3"> 1年到3年</label>
+                <label><input type="radio" name="q1" value="4"> 3年以上</label>
+            </div>
+        </div>
+        <div class="question" id="q2">
+            <label>2. 你每天花多少时间学习英语？</label>
+            <div class="options">
+                <label><input type="radio" name="q2" value="1"> 少于30分钟</label>
+                <label><input type="radio" name="q2" value="2"> 30分钟到1小时</label>
+                <label><input type="radio" name="q2" value="3"> 1小时到2小时</label>
+                <label><input type="radio" name="q2" value="4"> 2小时以上</label>
+            </div>
+        </div>
+        <div class="question" id="q3">
+            <label>3. 你觉得自己在哪个方面最需要提高？</label>
+            <div class="options">
+                <label><input type="radio" name="q3" value="1"> 听力</label>
+                <label><input type="radio" name="q3" value="2"> 口语</label>
+                <label><input type="radio" name="q3" value="3"> 阅读</label>
+                <label><input type="radio" name="q3" value="4"> 写作</label>
+            </div>
+        </div>
+        <button type="button" id="nextButton" onclick="nextQuestion()">下一题</button>
+    </form>
+</div>
+
+<!-- 结果弹窗 -->
+<div id="resultModal" class="result-modal">
+    <div class="result-modal-content">
+        <h2>你的定制学习方案</h2>
+        <p id="learningPlan"></p>
+        <button onclick="closeResultModal()">关闭</button>
+    </div>
+</div>
+
+<script>
+    let currentQuestion = 1; // 当前题目编号
+    const totalQuestions = 3; // 总题数
+
+    // 显示欢迎弹窗
+    document.getElementById("welcomeModal").style.display = "flex";
+
+    // 开始测试
+    function startSurvey() {
+        document.getElementById("welcomeModal").style.display = "none";
+        document.querySelector(".container").style.display = "block";
+    }
+
+    // 下一题
+    function nextQuestion() {
+        if (currentQuestion < totalQuestions) {
+            document.getElementById(`q${currentQuestion}`).classList.remove("active");
+            currentQuestion++;
+            document.getElementById(`q${currentQuestion}`).classList.add("active");
+            if (currentQuestion === totalQuestions) {
+                document.getElementById("nextButton").innerText = "提交";
+            }
+        } else {
+            calculateResult();
+        }
+    }
+
+    // 计算结果
+    function calculateResult() {
+        const q1 = parseInt(document.querySelector('input[name="q1"]:checked').value);
+        const q2 = parseInt(document.querySelector('input[name="q2"]:checked').value);
+        const q3 = parseInt(document.querySelector('input[name="q3"]:checked').value);
+
+        const totalScore = q1 + q2 + q3;
+
+        let learningPlan = "";
+
+        if (totalScore <= 4) {
+            learningPlan = "你目前的英语水平可能处于初级阶段。建议你从基础词汇和语法开始学习，每天坚持30分钟的听力练习，并使用简单的英语对话来提高口语能力。";
+        } else if (totalScore <= 8) {
+            learningPlan = "你目前的英语水平可能处于中级阶段。建议你加强听力和口语练习，每天至少花1小时进行英语阅读和写作练习，尝试与母语者交流以提高实际应用能力。";
+        } else {
+            learningPlan = "你目前的英语水平可能处于高级阶段。建议你专注于提高流利度和准确性，每天进行2小时以上的听力和口语练习，阅读英文原著和写作练习，并尝试参加英语辩论或演讲活动。";
+        }
+
+        document.getElementById("learningPlan").innerText = learningPlan;
+        document.getElementById("resultModal").style.display = "flex";
+    }
+
+    // 关闭结果弹窗
+    function closeResultModal() {
+        document.getElementById("resultModal").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
