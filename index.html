@@ -3,42 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>英语水平问卷调查</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>医学考博英语水平问卷调查</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #4caf50, #81c784);
+            background: #1a1a1a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            color: #e0e0e0;
+            font-family: 'Playfair Display', serif;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(30, 30, 30, 0.9);
             backdrop-filter: blur(10px);
+            border: 2px solid #d4af37;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 700px;
             width: 100%;
             padding: 30px;
             animation: fadeIn 1s ease-in-out;
             display: none; /* 初始隐藏 */
+            position: relative;
         }
 
         h1 {
             text-align: center;
-            color: #2e7d32;
-            font-size: 28px;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
             font-weight: 600;
             margin-bottom: 20px;
         }
@@ -54,9 +58,9 @@
 
         .question label {
             display: block;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 500;
-            color: #444;
+            color: #e0e0e0;
             margin-bottom: 10px;
         }
 
@@ -69,7 +73,7 @@
         .question .options label {
             display: flex;
             align-items: center;
-            background: #f5f5f5;
+            background: rgba(255, 255, 255, 0.1);
             padding: 12px;
             border-radius: 8px;
             cursor: pointer;
@@ -77,21 +81,27 @@
         }
 
         .question .options label:hover {
-            background: #e0e0e0;
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
         .question .options input[type="radio"] {
             margin-right: 10px;
-            accent-color: #4caf50;
+            accent-color: #d4af37;
         }
 
-        button {
-            display: block;
-            width: 100%;
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            flex: 1;
             padding: 15px;
-            background: linear-gradient(135deg, #4caf50, #66bb6a);
-            color: #fff;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #1a1a1a;
             border: none;
             border-radius: 8px;
             font-size: 16px;
@@ -100,9 +110,35 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        button:hover {
+        .button-group button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .button-group button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+        }
+
+        .button-group button.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            background: #d4af37;
+            border-radius: 5px;
+            transition: width 0.3s ease;
         }
 
         /* 欢迎弹窗样式 */
@@ -112,7 +148,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -121,46 +157,48 @@
         }
 
         .welcome-modal-content {
-            background: #fff;
+            background: rgba(30, 30, 30, 0.9);
+            border: 2px solid #d4af37;
             border-radius: 15px;
             padding: 30px;
             max-width: 500px;
             width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             animation: scaleIn 0.3s ease-in-out;
             text-align: center;
         }
 
         .welcome-modal-content h2 {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 600;
-            color: #2e7d32;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
             margin-bottom: 15px;
         }
 
         .welcome-modal-content p {
             font-size: 16px;
-            color: #555;
+            color: #e0e0e0;
             line-height: 1.6;
             margin-bottom: 20px;
         }
 
         .welcome-modal-content button {
-            background: #4caf50;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
             border: none;
             border-radius: 8px;
             padding: 10px 20px;
-            color: #fff;
+            color: #1a1a1a;
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
         .welcome-modal-content button:hover {
-            background: #388e3c;
+            background: linear-gradient(135deg, #b8860b, #d4af37);
         }
 
-        /* 弹窗样式 */
+        /* 结果弹窗样式 */
         .result-modal {
             display: none;
             position: fixed;
@@ -168,7 +206,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -176,42 +214,44 @@
         }
 
         .result-modal-content {
-            background: #fff;
+            background: rgba(30, 30, 30, 0.9);
+            border: 2px solid #d4af37;
             border-radius: 15px;
             padding: 30px;
             max-width: 500px;
             width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             animation: scaleIn 0.3s ease-in-out;
         }
 
         .result-modal-content h2 {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 600;
-            color: #2e7d32;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
             margin-bottom: 15px;
         }
 
         .result-modal-content p {
             font-size: 16px;
-            color: #555;
+            color: #e0e0e0;
             line-height: 1.6;
         }
 
         .result-modal-content button {
             margin-top: 20px;
-            background: #4caf50;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
             border: none;
             border-radius: 8px;
             padding: 10px 20px;
-            color: #fff;
+            color: #1a1a1a;
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
         .result-modal-content button:hover {
-            background: #388e3c;
+            background: linear-gradient(135deg, #b8860b, #d4af37);
         }
 
         @keyframes fadeIn {
@@ -246,36 +286,58 @@
 
 <!-- 问卷容器 -->
 <div class="container">
-    <h1>英语水平问卷调查</h1>
+    <h1>医学考博英语水平问卷调查</h1>
+    <div class="progress-bar">
+        <div class="progress-bar-inner" id="progressBar"></div>
+    </div>
     <form id="surveyForm">
         <div class="question active" id="q1">
-            <label>1. 你学习英语多久了？</label>
+            <label>1. 您的年龄范围是？</label>
             <div class="options">
-                <label><input type="radio" name="q1" value="1"> 少于6个月</label>
-                <label><input type="radio" name="q1" value="2"> 6个月到1年</label>
-                <label><input type="radio" name="q1" value="3"> 1年到3年</label>
-                <label><input type="radio" name="q1" value="4"> 3年以上</label>
+                <label><input type="radio" name="q1" value="1"> 30岁以下</label>
+                <label><input type="radio" name="q1" value="2"> 30-40岁</label>
+                <label><input type="radio" name="q1" value="3"> 40-50岁</label>
+                <label><input type="radio" name="q1" value="4"> 50岁以上</label>
             </div>
         </div>
         <div class="question" id="q2">
-            <label>2. 你每天花多少时间学习英语？</label>
+            <label>2. 您目前的英语水平如何？</label>
             <div class="options">
-                <label><input type="radio" name="q2" value="1"> 少于30分钟</label>
-                <label><input type="radio" name="q2" value="2"> 30分钟到1小时</label>
-                <label><input type="radio" name="q2" value="3"> 1小时到2小时</label>
-                <label><input type="radio" name="q2" value="4"> 2小时以上</label>
+                <label><input type="radio" name="q2" value="1"> 基础水平（能简单交流）</label>
+                <label><input type="radio" name="q2" value="2"> 中级水平（能阅读专业文献）</label>
+                <label><input type="radio" name="q2" value="3"> 高级水平（能流利表达和写作）</label>
             </div>
         </div>
         <div class="question" id="q3">
-            <label>3. 你觉得自己在哪个方面最需要提高？</label>
+            <label>3. 您每天能投入多少时间学习英语？</label>
             <div class="options">
-                <label><input type="radio" name="q3" value="1"> 听力</label>
-                <label><input type="radio" name="q3" value="2"> 口语</label>
-                <label><input type="radio" name="q3" value="3"> 阅读</label>
-                <label><input type="radio" name="q3" value="4"> 写作</label>
+                <label><input type="radio" name="q3" value="1"> 少于1小时</label>
+                <label><input type="radio" name="q3" value="2"> 1-2小时</label>
+                <label><input type="radio" name="q3" value="3"> 2小时以上</label>
             </div>
         </div>
-        <button type="button" id="nextButton" onclick="nextQuestion()">下一题</button>
+        <div class="question" id="q4">
+            <label>4. 您最需要提高的英语技能是？</label>
+            <div class="options">
+                <label><input type="radio" name="q4" value="1"> 听力</label>
+                <label><input type="radio" name="q4" value="2"> 口语</label>
+                <label><input type="radio" name="q4" value="3"> 阅读</label>
+                <label><input type="radio" name="q4" value="4"> 写作</label>
+            </div>
+        </div>
+        <div class="question" id="q5">
+            <label>5. 您的职业目标是？</label>
+            <div class="options">
+                <label><input type="radio" name="q5" value="1"> 临床医生</label>
+                <label><input type="radio" name="q5" value="2"> 科研人员</label>
+                <label><input type="radio" name="q5" value="3"> 医学教育者</label>
+                <label><input type="radio" name="q5" value="4"> 其他</label>
+            </div>
+        </div>
+        <div class="button-group">
+            <button type="button" id="prevButton" class="secondary" onclick="prevQuestion()">上一题</button>
+            <button type="button" id="nextButton" onclick="nextQuestion()">下一题</button>
+        </div>
     </form>
 </div>
 
@@ -290,7 +352,7 @@
 
 <script>
     let currentQuestion = 1; // 当前题目编号
-    const totalQuestions = 3; // 总题数
+    const totalQuestions = 5; // 总题数
 
     // 显示欢迎弹窗
     document.getElementById("welcomeModal").style.display = "flex";
@@ -299,6 +361,24 @@
     function startSurvey() {
         document.getElementById("welcomeModal").style.display = "none";
         document.querySelector(".container").style.display = "block";
+        updateProgressBar();
+    }
+
+    // 更新进度条
+    function updateProgressBar() {
+        const progress = (currentQuestion / totalQuestions) * 100;
+        document.getElementById("progressBar").style.width = `${progress}%`;
+    }
+
+    // 上一题
+    function prevQuestion() {
+        if (currentQuestion > 1) {
+            document.getElementById(`q${currentQuestion}`).classList.remove("active");
+            currentQuestion--;
+            document.getElementById(`q${currentQuestion}`).classList.add("active");
+            updateProgressBar();
+            document.getElementById("nextButton").innerText = "下一题";
+        }
     }
 
     // 下一题
@@ -307,6 +387,7 @@
             document.getElementById(`q${currentQuestion}`).classList.remove("active");
             currentQuestion++;
             document.getElementById(`q${currentQuestion}`).classList.add("active");
+            updateProgressBar();
             if (currentQuestion === totalQuestions) {
                 document.getElementById("nextButton").innerText = "提交";
             }
@@ -320,17 +401,19 @@
         const q1 = parseInt(document.querySelector('input[name="q1"]:checked').value);
         const q2 = parseInt(document.querySelector('input[name="q2"]:checked').value);
         const q3 = parseInt(document.querySelector('input[name="q3"]:checked').value);
+        const q4 = parseInt(document.querySelector('input[name="q4"]:checked').value);
+        const q5 = parseInt(document.querySelector('input[name="q5"]:checked').value);
 
-        const totalScore = q1 + q2 + q3;
+        const totalScore = q1 + q2 + q3 + q4 + q5;
 
         let learningPlan = "";
 
-        if (totalScore <= 4) {
-            learningPlan = "你目前的英语水平可能处于初级阶段。建议你从基础词汇和语法开始学习，每天坚持30分钟的听力练习，并使用简单的英语对话来提高口语能力。";
-        } else if (totalScore <= 8) {
-            learningPlan = "你目前的英语水平可能处于中级阶段。建议你加强听力和口语练习，每天至少花1小时进行英语阅读和写作练习，尝试与母语者交流以提高实际应用能力。";
+        if (totalScore <= 8) {
+            learningPlan = "您目前的英语水平可能需要更多基础训练。建议从医学英语基础词汇和语法开始，每天坚持30分钟的听力练习，并结合医学文献阅读提升专业词汇量。";
+        } else if (totalScore <= 15) {
+            learningPlan = "您目前的英语水平处于中等阶段。建议加强医学文献阅读和听力训练，每天至少花1小时进行专业英语学习，并尝试与同行进行英语交流。";
         } else {
-            learningPlan = "你目前的英语水平可能处于高级阶段。建议你专注于提高流利度和准确性，每天进行2小时以上的听力和口语练习，阅读英文原著和写作练习，并尝试参加英语辩论或演讲活动。";
+            learningPlan = "您目前的英语水平较高。建议专注于医学英语的流利表达和学术写作，每天进行2小时以上的听力和口语练习，并参与国际学术会议或发表英文论文。";
         }
 
         document.getElementById("learningPlan").innerText = learningPlan;
